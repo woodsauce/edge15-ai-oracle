@@ -78,3 +78,8 @@ package.json        Dev script and Node version
 ## Important
 
 This is a decision-support tool, not financial advice and not an auto-trading bot. Prediction markets and crypto are risky. The app can be wrong, APIs can lag, and Kalshi settlement may differ from Coinbase spot ticks.
+
+
+## Vercel runtime note
+
+This version intentionally does **not** set a custom function runtime in `vercel.json`. Vercel will auto-detect the `/api/*.js` serverless functions and use the default Node runtime. This avoids the build error: `Function Runtimes must have a valid version`.
