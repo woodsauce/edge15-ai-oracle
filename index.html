@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edge15 AI Oracle v2</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">15-minute crypto opportunity radar</p>
+        <h1>Edge15 AI Oracle <span class="version-tag">v2</span></h1>
+        <p class="subtitle">Scans BTC, ETH, SOL, BNB, and XRP for the cleanest Kalshi 15m setup. Official locks stay separate from early-scout forecasts.</p>
+      </div>
+      <div class="top-actions">
+        <div class="qr-card">
+          <img id="qrImage" alt="QR code for this app" />
+          <span>Phone link</span>
+        </div>
+        <div class="button-stack">
+          <button id="refreshNow" class="ghost-btn">Refresh now</button>
+          <button id="exportAll" class="ghost-btn">Export all data</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero-grid v2-grid">
+      <article id="lockBox" class="lock-card waiting">
+        <div class="lock-head">
+          <span class="pill" id="modePill">Balanced Hunter</span>
+          <span class="timer" id="roundTimer">--:--</span>
+        </div>
+        <div class="lock-main">
+          <p class="label">Official lock / best current opportunity</p>
+          <h2 id="bestPick">Scanning...</h2>
+          <p id="bestReason" class="reason">Waiting for Coinbase and Kalshi feeds.</p>
+        </div>
+        <div class="score-row">
+          <div><span id="bestScore">--</span><small>Edge score</small></div>
+          <div><span id="bestRisk">--</span><small>Official risk</small></div>
+          <div><span id="bestWindow">--</span><small>Lock window</small></div>
+        </div>
+      </article>
+
+      <article id="likelyBox" class="forecast-card">
+        <div class="card-title-row">
+          <h3>Likely Lock Forecast</h3>
+          <span class="soft-pill">Record impact: NO</span>
+        </div>
+        <p class="label">Pre-lock scout</p>
+        <h2 id="likelyPick">No forecast yet</h2>
+        <p id="earlyReason" class="reason small-reason">Waiting for enough signal stability.</p>
+        <div class="score-row compact">
+          <div><span id="likelyProb">--</span><small>Lock probability</small></div>
+          <div><span id="likelyWindow">--</span><small>Projected window</small></div>
+          <div><span id="earlyRisk">--</span><small>Early-entry risk</small></div>
+        </div>
+      </article>
+
+      <article class="record-card">
+        <div class="card-title-row">
+          <h3>Official Record</h3>
+          <button id="resetRecord" class="tiny-btn">Reset</button>
+        </div>
+        <div class="record-numbers">
+          <div><strong id="wins">0</strong><span>Wins</span></div>
+          <div><strong id="losses">0</strong><span>Losses</span></div>
+          <div><strong id="skips">0</strong><span>Skips</span></div>
+          <div><strong id="accuracy">--</strong><span>Accuracy</span></div>
+          <div class="wide"><strong id="pickRate">--</strong><span>Pick rate</span></div>
+        </div>
+        <div class="last10" id="last10"></div>
+        <p class="small-note">Official record counts only frozen locks and skips. Early-scout forecasts are tracked separately.</p>
+      </article>
+    </section>
+
+    <section class="controls-card">
+      <div>
+        <label for="modeSelect">Operating mode</label>
+        <select id="modeSelect">
+          <option value="balanced" selected>Balanced Hunter — default</option>
+          <option value="sniper">Ultra Sniper — fewer picks</option>
+          <option value="action">Action Mode — more picks</option>
+        </select>
+      </div>
+      <div>
+        <label for="coinSelect">Markets</label>
+        <select id="coinSelect" multiple size="5">
+          <option value="BTC" selected>BTC</option>
+          <option value="ETH" selected>ETH</option>
+          <option value="SOL" selected>SOL</option>
+          <option value="BNB" selected>BNB</option>
+          <option value="XRP" selected>XRP</option>
+        </select>
+      </div>
+      <div class="mini-status">
+        <span id="dataStatus">Idle</span>
+        <small id="updatedAt">No update yet</small>
+      </div>
+    </section>
+
+    <section class="scout-strip">
+      <article>
+        <span id="scoutWins">0</span>
+        <small>Scout wins</small>
+      </article>
+      <article>
+        <span id="scoutLosses">0</span>
+        <small>Scout losses</small>
+      </article>
+      <article>
+        <span id="scoutFades">0</span>
+        <small>Scout faded</small>
+      </article>
+      <article>
+        <span id="scoutAccuracy">--</span>
+        <small>Scout accuracy</small>
+      </article>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h3>Live ranked markets</h3>
+        <p>One official lock per 15-minute round. Money/odds are shown but do not block the pick.</p>
+      </div>
+      <div id="marketGrid" class="market-grid"></div>
+    </section>
+
+    <section class="brain-grid v2-brain-grid">
+      <article class="brain-card">
+        <h3>AI council</h3>
+        <div id="councilList" class="council-list"></div>
+      </article>
+      <article class="brain-card">
+        <h3>Learning memory</h3>
+        <div id="memorySummary" class="memory-summary"></div>
+      </article>
+      <article class="brain-card">
+        <h3>Pending locks</h3>
+        <div id="pendingList" class="pending-list"></div>
+      </article>
+      <article class="brain-card">
+        <h3>Early scout history</h3>
+        <div id="scoutList" class="scout-list"></div>
+      </article>
+    </section>
+
+    <footer>
+      <p>This is a decision-support tool, not financial advice or an auto-betting bot. Crypto/prediction markets are risky, APIs can lag, and settlement can differ from visible spot ticks.</p>
+    </footer>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
