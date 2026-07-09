@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edge15 AI Oracle v1 — 6 Minute Lock + Normalized Selector</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">15-minute crypto opportunity radar</p>
+        <h1>Edge15 AI Oracle v1 — 6 Minute Lock + Normalized Selector</h1>
+        <p class="subtitle">V1 model behavior with the main official lock at 6:00, optional 100% Defense Mode, and normalized multi-coin ranking.</p>
+      </div>
+      <div class="top-actions">
+        <div class="qr-card">
+          <img id="qrImage" alt="QR code for this app" />
+          <span>Phone link</span>
+        </div>
+        <button id="refreshNow" class="ghost-btn">Refresh now</button>
+      </div>
+    </header>
+
+    <section class="hero-grid">
+      <article id="lockBox" class="lock-card waiting">
+        <div class="lock-head">
+          <span class="pill" id="modePill">Balanced Hunter</span>
+          <span class="timer" id="roundTimer">--:--</span>
+        </div>
+        <div class="lock-main">
+          <p class="label">Best current opportunity</p>
+          <h2 id="bestPick">Scanning...</h2>
+          <p id="bestReason" class="reason">Waiting for Coinbase and Kalshi feeds.</p>
+        </div>
+        <div class="score-row">
+          <div><span id="bestScore">--</span><small>Edge score</small></div>
+          <div><span id="bestRisk">--</span><small>Risk</small></div>
+          <div><span id="bestWindow">--</span><small>Lock window</small></div>
+        </div>
+      </article>
+
+      <article class="record-card">
+        <div class="card-title-row">
+          <h3>Record</h3>
+          <div class="card-actions"><button id="exportRecord" class="tiny-btn">Export</button><button id="resetRecord" class="tiny-btn">Reset</button></div>
+        </div>
+        <div class="record-numbers">
+          <div><strong id="wins">0</strong><span>Wins</span></div>
+          <div><strong id="losses">0</strong><span>Losses</span></div>
+          <div><strong id="skips">0</strong><span>Skips</span></div>
+          <div><strong id="accuracy">--</strong><span>Accuracy</span></div>
+        </div>
+        <div class="last10" id="last10"></div>
+        <p class="small-note">Stored locally in this browser. Auto-resolves when Kalshi returns final market data; manual correction buttons appear for pending locks.</p>
+      </article>
+    </section>
+
+    <section class="controls-card">
+      <div>
+        <label for="modeSelect">Operating mode</label>
+        <select id="modeSelect">
+          <option value="balanced" selected>Balanced Hunter — default</option>
+          <option value="sniper">Ultra Sniper — fewer picks</option>
+          <option value="action">Action Mode — more picks</option>
+          <option value="perfect">100% Defense Mode — strictest filter</option>
+        </select>
+      </div>
+      <div>
+        <label for="coinSelect">Markets</label>
+        <select id="coinSelect" multiple size="4">
+          <option value="BTC" selected>BTC</option>
+          <option value="ETH" selected>ETH</option>
+          <option value="SOL" selected>SOL</option>
+          <option value="BNB" selected>BNB</option>
+          <option value="XRP" selected>XRP</option>
+        </select>
+      </div>
+      <div class="mini-status">
+        <span id="dataStatus">Idle</span>
+        <small id="updatedAt">No update yet</small>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h3>Live ranked markets</h3>
+        <p>One official lock per 15-minute round. Money/odds are shown but do not block the pick.</p>
+      </div>
+      <div id="marketGrid" class="market-grid"></div>
+    </section>
+
+    <section class="brain-grid">
+      <article class="brain-card">
+        <h3>AI council</h3>
+        <div id="councilList" class="council-list"></div>
+      </article>
+      <article class="brain-card">
+        <h3>Learning memory</h3>
+        <div id="memorySummary" class="memory-summary"></div>
+      </article>
+      <article class="brain-card">
+        <h3>Pending locks</h3>
+        <div id="pendingList" class="pending-list"></div>
+      </article>
+    </section>
+
+    <footer>
+      <p>This is a decision-support tool, not financial advice or an auto-betting bot. Crypto/prediction markets are risky, APIs can lag, and settlement can differ from visible spot ticks.</p>
+    </footer>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
