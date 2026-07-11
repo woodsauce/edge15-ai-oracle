@@ -1,0 +1,13 @@
+{
+  "name": "edge15-ai-oracle-bot-mirror-modes",
+  "version": "1.4.0",
+  "description": "Edge15 champion normalized-selector model with Champion Mirror 1:1 and Armed Window bot modes",
+  "private": true,
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=20"
+  }
+}
