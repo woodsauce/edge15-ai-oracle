@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edge15 AI Oracle Bot — Automated Demo/Live Controls</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">15-minute crypto opportunity radar</p>
+        <h1>Edge15 AI Oracle Bot — Champion Auto Controls</h1>
+        <p class="subtitle">Champion normalized-selector model with selectable bot modes: Champion Mirror 1:1 or Armed Window 4:30–6:30. Default launch mode: Demo.</p>
+      </div>
+      <div class="top-actions">
+        <div class="qr-card">
+          <img id="qrImage" alt="QR code for this app" />
+          <span>Phone link</span>
+        </div>
+        <button id="refreshNow" class="ghost-btn">Refresh now</button>
+      </div>
+    </header>
+
+    <section class="hero-grid">
+      <article id="lockBox" class="lock-card waiting">
+        <div class="lock-head">
+          <span class="pill" id="modePill">Balanced Hunter</span>
+          <span class="timer" id="roundTimer">--:--</span>
+        </div>
+        <div class="lock-main">
+          <p class="label">Best current opportunity</p>
+          <h2 id="bestPick">Scanning...</h2>
+          <p id="bestReason" class="reason">Waiting for Coinbase and Kalshi feeds.</p>
+        </div>
+        <div class="score-row">
+          <div><span id="bestScore">--</span><small>Edge score</small></div>
+          <div><span id="bestRisk">--</span><small>Risk</small></div>
+          <div><span id="bestWindow">--</span><small>Lock window</small></div>
+        </div>
+      </article>
+
+      <article class="record-card">
+        <div class="card-title-row">
+          <h3>Record</h3>
+          <div class="card-actions"><button id="exportRecord" class="tiny-btn">Export</button><button id="resetRecord" class="tiny-btn">Reset</button></div>
+        </div>
+        <div class="record-numbers">
+          <div><strong id="wins">0</strong><span>Wins</span></div>
+          <div><strong id="losses">0</strong><span>Losses</span></div>
+          <div><strong id="skips">0</strong><span>Skips</span></div>
+          <div><strong id="accuracy">--</strong><span>Accuracy</span></div>
+        </div>
+        <div class="last10" id="last10"></div>
+        <p class="small-note">Stored locally in this browser. Auto-resolves when Kalshi returns final market data; manual correction buttons appear for pending locks.</p>
+      </article>
+    </section>
+
+    <section class="controls-card">
+      <div>
+        <label for="modeSelect">Operating mode</label>
+        <select id="modeSelect">
+          <option value="balanced" selected>Balanced Hunter — default</option>
+          <option value="sniper">Ultra Sniper — fewer picks</option>
+          <option value="action">Action Mode — more picks</option>
+          <option value="perfect">100% Defense Mode — strictest filter</option>
+        </select>
+      </div>
+      <div>
+        <label for="coinSelect">Markets</label>
+        <select id="coinSelect" multiple size="4">
+          <option value="BTC" selected>BTC</option>
+          <option value="ETH" selected>ETH</option>
+          <option value="SOL" selected>SOL</option>
+          <option value="BNB" selected>BNB</option>
+          <option value="XRP" selected>XRP</option>
+        </select>
+      </div>
+      <div class="mini-status">
+        <span id="dataStatus">Idle</span>
+        <small id="updatedAt">No update yet</small>
+      </div>
+    </section>
+
+
+
+    <section class="bot-card" id="botPanel">
+      <div class="section-head">
+        <div>
+          <h3>Automated Bot Control Panel</h3>
+          <p>Selectable bot modes keep separate records. Champion Mirror 1:1 trades official champion locks without re-filtering; Armed Window tests the 4:30–6:30 early-action range separately.</p>
+        </div>
+        <div class="bot-status-pill" id="botStatusPill">BOT: DEMO</div>
+      </div>
+
+      <div class="bot-grid">
+        <label>Bot Mode
+          <select id="botMode">
+            <option value="off">Off</option>
+            <option value="demo" selected>Demo</option>
+            <option value="live">Live</option>
+          </select>
+        </label>
+        <label>Demo Orders
+          <select id="demoOrderMode">
+            <option value="simulated">Simulated log only</option>
+            <option value="kalshi-demo" selected>Send to Kalshi Demo API</option>
+          </select>
+        </label>
+        <label>Strategy Mode
+          <select id="botStrategyMode">
+            <option value="champion-mirror" selected>Champion Mirror 1:1 — official locks only</option>
+            <option value="armed-window">Armed Window — 4:30 to 6:30 test mode</option>
+          </select>
+        </label>
+        <label>Max trade size per pick ($)
+          <input id="botMaxTradeSize" type="number" min="0" step="0.01" value="1" />
+        </label>
+        <label>Max trades per day <small>0 = no max</small>
+          <input id="botMaxTradesPerDay" type="number" min="0" step="1" value="0" />
+        </label>
+        <label>Max daily loss ($) <small>0 = no max</small>
+          <input id="botMaxDailyLoss" type="number" min="0" step="0.01" value="5" />
+        </label>
+        <label>Max open positions
+          <input id="botMaxOpenPositions" type="number" min="1" step="1" value="1" />
+        </label>
+        <label>Minimum edge score
+          <input id="botMinScore" type="number" min="0" max="99" step="1" value="70" />
+        </label>
+        <label>Minimum selector score
+          <input id="botMinSelectorScore" type="number" min="0" max="99" step="1" value="72" />
+        </label>
+        <label>Allowed risk
+          <select id="botAllowedRisk">
+            <option value="Low">Low only</option>
+            <option value="Medium" selected>Medium or better</option>
+            <option value="High">High or better</option>
+          </select>
+        </label>
+        <label>Armed start minute
+          <input id="botArmedStartMin" type="number" min="0" max="15" step="0.1" value="4.5" />
+        </label>
+        <label>Armed end minute
+          <input id="botArmedEndMin" type="number" min="0" max="15" step="0.1" value="6.5" />
+        </label>
+        <label>Contract price cap
+          <select id="botPriceCap">
+            <option value="0" selected>No cap — bet if possible</option>
+            <option value="0.99">99¢</option>
+            <option value="0.98">98¢</option>
+            <option value="0.95">95¢</option>
+            <option value="0.90">90¢</option>
+          </select>
+        </label>
+        <label>Cancel unfilled order after seconds
+          <input id="botCancelAfterSec" type="number" min="1" max="120" step="1" value="10" />
+        </label>
+        <label>Stop after X wins <small>0 = no limit</small>
+          <input id="botStopAfterXWins" type="number" min="0" step="1" value="0" />
+        </label>
+      </div>
+
+      <div class="bot-toggle-grid">
+        <label><input id="botUseExtraPredictionFilters" type="checkbox" /> Use extra score/risk/window filters</label>
+        <label><input id="botSixOnly" type="checkbox" /> Extra filter: use 6:00 locks only</label>
+        <label><input id="botAllow4" type="checkbox" checked /> Extra filter: allow 4:00 backup locks</label>
+        <label><input id="botStopAfterFirstLoss" type="checkbox" /> Stop after first loss</label>
+        <label><input id="botLiveConfirm" type="checkbox" /> I understand Live Mode can place real Kalshi trades</label>
+      </div>
+
+      <div class="bot-market-checks">
+        <strong>Bot allowed markets</strong>
+        <label><input type="checkbox" class="botMarket" value="BTC" checked /> BTC</label>
+        <label><input type="checkbox" class="botMarket" value="ETH" checked /> ETH</label>
+        <label><input type="checkbox" class="botMarket" value="SOL" checked /> SOL</label>
+        <label><input type="checkbox" class="botMarket" value="BNB" checked /> BNB</label>
+        <label><input type="checkbox" class="botMarket" value="XRP" checked /> XRP</label>
+      </div>
+
+      <div class="bot-summary-row">
+        <div><b id="botTradesToday">0</b><span>Trades today</span></div>
+        <div><b id="botOpenPositions">0</b><span>Open positions</span></div>
+        <div><b id="botDailyLoss">$0.00</b><span>Tracked daily loss</span></div>
+        <div><b id="botLastAction">No bot action yet</b><span>Last action</span></div>
+      </div>
+
+      <div class="bot-records" id="botRecordSummary"></div>
+
+      <div class="bot-actions">
+        <button id="botSaveSettings" class="ghost-btn">Save bot settings</button>
+        <button id="botTestKeys" class="ghost-btn">Test Kalshi keys</button>
+        <button id="botKillSwitch" class="danger-btn">KILL SWITCH — turn bot off</button>
+        <button id="botExportLog" class="tiny-btn">Export bot log</button>
+        <button id="botClearLog" class="tiny-btn">Clear bot log</button>
+        <button id="botResetRecords" class="tiny-btn">Reset bot mode records</button>
+      </div>
+
+      <div class="key-test-box" id="botKeyTestResult">Kalshi key test has not run yet.</div>
+
+      <div class="bot-log-wrap">
+        <h4>Bot trade log</h4>
+        <div id="botTradeLog" class="bot-trade-log"><p class="small-note">No bot trades yet.</p></div>
+      </div>
+    </section>
+
+
+    <section>
+      <div class="section-head">
+        <h3>Live ranked markets</h3>
+        <p>One official lock per 15-minute round. Money/odds are shown but do not block the pick.</p>
+      </div>
+      <div id="marketGrid" class="market-grid"></div>
+    </section>
+
+    <section class="brain-grid">
+      <article class="brain-card">
+        <h3>AI council</h3>
+        <div id="councilList" class="council-list"></div>
+      </article>
+      <article class="brain-card">
+        <h3>Learning memory</h3>
+        <div id="memorySummary" class="memory-summary"></div>
+      </article>
+      <article class="brain-card">
+        <h3>Pending locks</h3>
+        <div id="pendingList" class="pending-list"></div>
+      </article>
+    </section>
+
+    <footer>
+      <p>This is trading automation software when Bot Mode is Demo or Live. It is not financial advice. Crypto/prediction markets are risky, APIs can lag, and settlement can differ from visible spot ticks.</p>
+    </footer>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
